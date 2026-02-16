@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VII D CLASS</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Segoe UI,sans-serif}
+body{
+  background:linear-gradient(to bottom,#0d47a1,#050505);
+  color:#eee;
+  overflow:hidden;
+}
+section{padding:60px 20px}
+h2{text-align:center;margin-bottom:25px}
+p{text-align:center;max-width:900px;margin:auto;line-height:1.7;opacity:.9}
+
+/* GLASS */
+.glass{
+  background:rgba(255,255,255,.08);
+  backdrop-filter:blur(12px);
+  border-radius:18px;
+  padding:30px;
+  border:1px solid rgba(255,255,255,.15);
+}
+
+/* GRID */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
+  gap:20px;
+  max-width:1100px;
+  margin:auto;
+}
+
+/* WELCOME */
+#welcome{
+  position:fixed;
+  inset:0;
+  z-index:9999;
+  background:linear-gradient(to bottom,#0d47a1,#050505);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.welcome-box{
+  text-align:center;
+  padding:45px;
+  background:rgba(255,255,255,.08);
+  border-radius:22px;
+  backdrop-filter:blur(14px);
+}
+.welcome-box h1{font-size:42px}
+.welcome-box span{color:#64b5f6}
+.welcome-box button{
+  margin-top:30px;
+  padding:14px 40px;
+  border:none;
+  border-radius:30px;
+  background:#64b5f6;
+  color:#000;
+  font-size:16px;
+  cursor:pointer;
+}
+
+/* CARDS */
+.card{
+  background:rgba(255,255,255,.1);
+  border-radius:16px;
+  padding:15px;
+  text-align:center;
+}
+.card img{
+  width:100%;
+  height:180px;
+  object-fit:cover;
+  border-radius:12px;
+  transition:.35s ease;
+  cursor:pointer;
+}
+.card img:active{
+  transform:scale(1.12);
+  box-shadow:0 0 20px rgba(100,181,246,.8);
+}
+
+/* TABLE */
+table{width:100%;max-width:900px;margin:auto;border-collapse:collapse}
+th,td{padding:12px;border-bottom:1px solid rgba(255,255,255,.2);text-align:center}
+th{color:#64b5f6}
+
+/* MAP */
+.map iframe{
+  width:100%;
+  height:320px;
+  border:0;
+  border-radius:16px;
+  margin-bottom:12px;
+}
+
+/* GALLERY */
+.gallery{
+  max-width:1000px;
+  margin:auto;
+  display:flex;
+  flex-direction:column;
+  gap:30px;
+}
+.gallery-row{
+  display:grid;
+  gap:20px;
+}
+.gallery-row.two{grid-template-columns:1fr 1fr}
+.gallery-row.one{grid-template-columns:1fr}
+
+.media-box{
+  width:100%;
+  aspect-ratio:16/9;
+  border-radius:18px;
+  overflow:hidden;
+  cursor:pointer;
+}
+.media-box img,
+.media-box video {
+  width: 100%;
+  height: 100%;
+  border-radius: 18px;   /* biar sudut sama kaya gambar */
+  object-fit: cover;     /* biar ngepas & crop sesuai container */
+  pointer-events: none;
+  display: block;
+}
+.media-box.active img{
+  transform:scale(1.06);
+  box-shadow:0 0 30px rgba(100,181,246,.85);
+}
+.media-box video{pointer-events:none}
+
+/* FOOTER */
+footer{text-align:center;padding:25px;font-size:14px;opacity:.75}
+  
+  .maps {
+  padding: 20px;
+}
+
+.map-wrap {
+  width: 100%;
+  height: 350px;       /* JANGAN HAPUS */
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.map-wrap iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+}
+  
+  .lokasi {
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.map-box {
+  width: 100%;
+  max-width: 900px;
+  height: 400px;            /* ⬅️ ini bikin map ENAK */
+  margin: 0 auto 20px;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 10px 40px rgba(0,0,0,.4);
+}
+
+.map-box iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.lokasi-text {
+  max-width: 800px;
+  margin: auto;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #ccc;
+}
+  
+  .wali-kelas {
+  margin: 60px 0;
+  text-align: center;
+}
+
+.wali-card {
+  width: 100%;
+  max-width: 900px;
+  margin: auto;
+  padding: 20px;
+  backdrop-filter: blur(12px);
+  background: rgba(255,255,255,0.12);
+  border-radius: 20px;
+}
+
+.wali-card img {
+  width: 100%;
+  height: auto;
+  border-radius: 16px;
+  object-fit: cover;
+  margin-bottom: 20px;
+}
+
+.wali-text {
+  font-size: 15px;
+  line-height: 1.7;
+  color: #f0f0f0;
+}
+  #content {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 1.2s ease, transform 1.2s ease;
+}
+
+#content.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+  .reveal {
+  opacity: 0;
+  transform: translateY(60px);
+  transition: opacity 0.9s ease, transform 0.9s ease;
+  will-change: transform, opacity; /* bikin lebih smooth di HP */
+}
+
+.reveal.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+  .follow-box {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 25px;
+  backdrop-filter: blur(12px);
+  background: rgba(255,255,255,0.12);
+  border-radius: 20px;
+  text-align: center;
+}
+
+.follow-box h3 {
+  font-size: 20px;
+  margin-bottom: 15px;
+  color: #64b5f6;
+}
+
+.follow-icons {
+  display: flex;
+  justify-content: center;
+  gap: 25px;
+  margin-bottom: 20px;
+}
+
+.follow-icons a {
+  color: #eee;
+  font-size: 28px;
+  transition: transform 0.3s, color 0.3s;
+}
+
+.follow-icons a:hover {
+  transform: scale(1.2);
+  color: #64b5f6;
+}
+
+.anonymous-form input,
+.anonymous-form textarea {
+  width: 90%;
+  max-width: 500px;
+  padding: 12px;
+  margin-bottom: 12px;
+  border-radius: 12px;
+  border: none;
+  outline: none;
+}
+
+.anonymous-form button {
+  padding: 12px 30px;
+  border: none;
+  border-radius: 20px;
+  background: #64b5f6;
+  color: #000;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.3s;
+}
+
+.anonymous-form button:hover {
+  transform: scale(1.05);
+}
+  .follow-section {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 25px;
+  backdrop-filter: blur(12px);
+  background: rgba(255,255,255,0.12);
+  border-radius: 20px;
+  text-align: center;
+}
+
+.follow-section h3 {
+  font-size: 20px;
+  margin-bottom: 25px;
+  color: #64b5f6;
+}
+
+.follow-cards {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 25px;
+  margin-bottom: 25px;
+}
+
+.follow-card {
+  background: rgba(255,255,255,0.08);
+  padding: 20px 25px;
+  border-radius: 20px;
+  min-width: 150px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  transition: transform 0.3s, box-shadow 0.3s;
+  cursor: pointer;
+  color: #eee;
+  text-decoration: none;
+}
+
+.follow-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 25px rgba(100,181,246,0.6);
+}
+
+.follow-card img {
+  width: 50px;
+  height: 50px;
+  object-fit: contain;
+}
+
+.follow-card span {
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.anonymous-form input,
+.anonymous-form textarea {
+  width: 90%;
+  max-width: 500px;
+  padding: 12px;
+  margin-bottom: 12px;
+  border-radius: 12px;
+  border: none;
+  outline: none;
+}
+
+.anonymous-form button {
+  padding: 12px 30px;
+  border: none;
+  border-radius: 20px;
+  background: #64b5f6;
+  color: #000;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.3s;
+}
+
+.anonymous-form button:hover {
+  transform: scale(1.05);
+}
+  .linktree-section {
+  max-width: 400px;
+  margin: 40px auto;
+  padding: 25px;
+  backdrop-filter: blur(12px);
+  background: rgba(255,255,255,0.12);
+  border-radius: 25px;
+  text-align: center;
+}
+
+.linktree-section h3 {
+  font-size: 20px;
+  margin-bottom: 25px;
+  color: #64b5f6;
+}
+
+.linktree-link {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  background: rgba(255,255,255,0.08);
+  padding: 15px 20px;
+  margin-bottom: 15px;
+  border-radius: 20px;
+  text-decoration: none;
+  color: #eee;
+  font-weight: bold;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.linktree-link img {
+  width: 50px;           /* ukuran logo */
+  height: 50px;          /* sama tinggi & lebar */
+  border-radius: 50%;    /* bikin bulat */
+  object-fit: cover;     /* supaya logo ngepas di kotak */
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.linktree-link:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 20px rgba(100,181,246,0.6);
+}
+</style>
+</head>
+
+<body>
+
+<!-- WELCOME -->
+<div id="welcome">
+  <div class="welcome-box">
+    <h1>Welcome to <span>VII D CLASS</span></h1>
+    <p>- 28 -</p>
+    <button onclick="startWeb()">NEXT</button>
+  </div>
+</div>
+
+<audio id="bgm" loop>
+  <source src="lagu.mp3" type="audio/mpeg">
+</audio>
+
+<div id="content">
+
+<section>
+  <h2>Tentang Kami</h2>
+  <div class="glass">
+    <p><b>VII D CLASS</b> adalah satu kelas dengan banyak perbedaan yang disatukan oleh kebersamaan. Kami belajar untuk saling menghargai dan tumbuh bersama.</p>
+  </div>
+</section>
+  
+
+  <section class="wali-kelas">
+  <h2>Wali Kelas</h2>
+
+  <div class="wali-card">
+    <img src="wali.jpg" alt="Wali Kelas">
+
+    <p class="wali-text">
+      <b>Bu Yani</b> adalah wali kelas yang baik, sabar, dan penuh perhatian. Beliau selalu membimbing kami bukan hanya dalam pelajaran, tapi juga dalam sikap dan kebersamaan di kelas. Dengan ketegasan yang lembut, <b>Bu Yani</b> mengajarkan kami arti tanggung jawab, disiplin, dan saling menghargai. Kehadiran <b>Bu Yani</b> membuat kelas terasa lebih terarah, nyaman, dan penuh semangat untuk terus belajar serta menjadi pribadi yang lebih baik.
+    </p>
+  </div>
+</section>
+
+<section>
+  <h2>Struktur Kelas</h2>
+  <div class="grid">
+    <div class="card"><img src="ketua.jpg"><b>Ketua</b><br>Kainan</div>
+    <div class="card"><img src="wakil.jpg"><b>Wakil</b><br>Nafisa</div>
+    <div class="card"><img src="sekre1.jpg"><b>Sekretaris 1</b><br>Armya</div>
+    <div class="card"><img src="sekre2.jpg"><b>Sekretaris 2</b><br>Naufal</div>
+    <div class="card"><img src="bend1.jpg"><b>Bendahara 1</b><br>Nabila</div>
+    <div class="card"><img src="bend2.jpg"><b>Bendahara 2</b><br>Fatih</div>
+  </div>
+</section>
+
+<section>
+  <h2>Members Kelas</h2>
+  <div class="grid">
+    <script>
+      for (let i = 1; i <= 26; i++) {
+        document.write(`
+          <div class="card">
+            <img src="foto/${i}.jpg">
+          </div>
+        `);
+      }
+    </script>
+  </div>
+</section>
+
+
+<section>
+  <h2>Galeri Kelas</h2>
+  <div class="gallery">
+    <div class="gallery-row two">
+      <div class="media-box"><img src="foto1.jpg"></div>
+      <div class="media-box"><img src="foto2.jpg"></div>
+    </div>
+    <div class="gallery-row one">
+      <div class="media-box">
+        <video autoplay loop muted playsinline>
+          <source src="video1.mp4" type="video/mp4">
+        </video>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>Jadwal Piket</h2>
+  <div class="glass">
+    <table>
+      <tr><th>Hari</th><th>Petugas</th></tr>
+      <tr><td>Senin</td><td>Niswa, Klaura, Varo, Muafa, Ahmad, Hilmy, Zahwa</td></tr>
+      <tr><td>Selasa</td><td>Aeldra, Baim, Gibran, Wicak, Afifah, Dinda, Laras</td></tr>
+      <tr><td>Rabu</td><td>Nafisa, Kainan, Armya, Naufal, Sasha, Kenzie</td></tr>
+      <tr><td>Kamis</td><td>Abbad, Rafa, Zaki, Malikha, Valen, Raiza</td></tr>
+      <tr><td>Jumat</td><td>Nabila, Sekar, Amara, Galang, Izam, Fatih</td></tr>
+    </table>
+  </div>
+</section>
+
+<section>
+  <h2>Quotes</h2>
+  <div class="glass">
+    <p>“<b>Bukan soal siapa paling hebat, tapi siapa yang mau berjuang bareng.</b>”</p>
+  </div>
+</section>
+  
+  <section class="linktree-section reveal">
+  <h3>Follow Kami & Kirim Pesan Anonim</h3>
+
+  <a href="https://instagram.com/dream7d.matsesa" target="_blank" class="linktree-link">
+    <img src="ig-logo.jpg" alt=""> Instagram
+  </a>
+
+  <a href="https://tiktok.com/@matsesa7d" target="_blank" class="linktree-link">
+    <img src="tiktok-logo.jpg" alt=""> TikTok
+  </a>
+
+  <a href="https://ngl.link/matsesa7d" target="_blank" class="linktree-link">
+    <img src="ngl-logo.jpg" alt=""> Pesan Anonim
+  </a>
+   
+   <a href="https://wa.me//+6288985678191" target="_blank" class="linktree-link">
+   <img src="wa-logo.jpg" alt=""> Chat Admin
+   </a>
+</section>
+
+<section class="lokasi">
+  <h2>Lokasi</h2>
+
+  <div class="map-box">
+    <iframe
+      src="https://www.google.com/maps?q=-7.733562,110.391437&z=17&output=embed"
+      loading="lazy"
+      allowfullscreen
+      referrerpolicy="no-referrer-when-downgrade">
+    </iframe>
+  </div>
+
+  <p class="lokasi-text">
+    Kelas VII D berada di lingkungan MTsN 10 Sleman
+  </p>
+</section>
+
+<footer>© VII D CLASS</footer>
+</div>
+
+<script>
+function startWeb(){
+  const welcome = document.getElementById('welcome');
+  const content = document.getElementById('content');
+  const bgm = document.getElementById('bgm');
+
+  // fade out welcome
+  welcome.style.transition = 'opacity 1s ease';
+  welcome.style.opacity = '0';
+
+  setTimeout(() => {
+    welcome.style.display = 'none';
+    document.body.style.overflow = 'auto';
+
+    // show content pelan-pelan
+    content.classList.add('show');
+
+    // audio smooth volume
+    bgm.volume = 0;
+    bgm.play();
+
+    let vol = 0;
+    const fadeAudio = setInterval(() => {
+      if (vol < 1) {
+        vol += 0.05;      // kecepatan naik (bisa diatur)
+        bgm.volume = vol;
+      } else {
+        bgm.volume = 1;
+        clearInterval(fadeAudio);
+      }
+    }, 200); // jeda tiap naik volume
+  }, 1000);
+}
+
+document.querySelectorAll('.media-box').forEach(box=>{
+  box.onclick=()=>{
+    document.querySelectorAll('.media-box').forEach(b=>b.classList.remove('active'));
+    box.classList.add('active');
+  }
+});
+  
+  const reveals = document.querySelectorAll('.reveal');
+
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('show');
+      observer.unobserve(entry.target); // animasi sekali aja
+    }
+  });
+}, {
+  threshold: 0.15
+});
+
+reveals.forEach(el => observer.observe(el));
+  
+  const revealElements = document.querySelectorAll('.reveal');
+
+const revealObserver = new IntersectionObserver((entries, observer) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('show');
+      observer.unobserve(entry.target); // animasi hanya sekali
+    }
+  });
+}, {
+  threshold: 0.15 // mulai muncul saat 15% terlihat
+});
+
+revealElements.forEach(el => revealObserver.observe(el));
+</script>
+
+</body>
+</html>
